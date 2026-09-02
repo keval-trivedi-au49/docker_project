@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Form</title>
+  </head>
+  <body>
+    <h1>User Form</h1>
+    <form id="userForm">
+      <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" placeholder="Enter your name" />
+      </div>
+      <br />
+      <div>
+        <label for="email">Email:</label>
+        <input type="text" id="email" placeholder="Enter your email" />
+      </div>
+      <br />
+      <button type="submit">Submit</button>
+    </form>
+    <p id="message" style="color: red;"></p>
+    <script src="/config.js"></script>
+    <script>
+      const form = document.getElementById("userForm");
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+
+        const response = await fetch(`${window.BACKEND_URL}/submit`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+          }),
+        });
+        const data = await response.json();
+        document.getElementById("message").innerText = data.message;
+      });
+    </script>
+  </body>
+</html>

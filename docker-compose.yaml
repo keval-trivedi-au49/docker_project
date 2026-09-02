@@ -1,0 +1,19 @@
+version: '1.0.0'
+
+services:
+ 
+ backend:
+  build: backend
+  image: keval1101/docker-assignment-backend:1.0.0
+  container_name: python_backend
+  ports:
+   - "5000:5000"
+
+ frontend: 
+  build: frontend
+  image: keval1101/docker-assignment-frontend:1.0.0
+  container_name: node_frontend
+  env_file:
+   - frontend/.env
+  ports:
+   - "3000:3000"
