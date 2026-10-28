@@ -17,7 +17,7 @@ db = client["fullstack_app"]
 users = db["drivers"]
 
 
-@app.route("/submit", methods=["POST"])
+@app.route("/api/submit", methods=["POST"])
 def submit():
 
     try:
