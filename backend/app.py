@@ -2,7 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
-from pymongo import MongoClient
+from pymongo import MongoClient, timeout
+from pymongo.errors import PyMongoError
 
 load_dotenv()
 
@@ -15,6 +16,21 @@ CORS(app)
 client = MongoClient(mongo_uri)
 db = client["fullstack_app"]
 users = db["drivers"]
+
+
+@app.route("/api/health", methods=["GET"])
+def health_check():
+    try:
+        with timeout(2):
+            client.admin.command("ping")
+        response = jsonify({"status": "healthy", "database": "available"})
+        status_code = 200
+    except PyMongoError:
+        response = jsonify({"status": "unhealthy", "database": "unavailable"})
+        status_code = 503
+
+    response.headers["Cache-Control"] = "no-store"
+    return response, status_code
 
 
 @app.route("/api/submit", methods=["POST"])
