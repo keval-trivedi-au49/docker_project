@@ -29,7 +29,7 @@
         const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
 
-        const response = await fetch(`${window.BACKEND_URL}/submit`, {
+        const response = await fetch(`/api/submit`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

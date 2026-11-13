@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
@@ -55,6 +55,14 @@ def submit():
 
     except Exception as error:
         return jsonify({"message": str(error)}),500
+    
+@app.route("/api")
+def index():
+    try:
+        env = dict(os.environ)
+        return render_template('index.html', env = env)
+    except Exception as error:
+            return jsonify({"message": str(error)}),500
 
 
 if __name__ == "__main__":
